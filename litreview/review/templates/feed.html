@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>Page avec toutes les critiques et reviews publiées</p>
+
+    {% if latest_tickets_list %}
+        <ul class="ticket">
+            {% for ticket in latest_tickets_list %}
+            <li>
+                <p>{{ ticket.user }} a demandé une critique</p>
+                <p>{{ ticket.time_created }}</p>
+                <p>{{ ticket.title }}</p>
+                <button type="submit">
+                    <a href="{% url '' %}">Créer une critique</a>
+                </button>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Il n'y a pas de tickets.</p>
+    {% endif %}
+
+{% endblock content %}
