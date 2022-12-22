@@ -2,9 +2,30 @@
 
 {% block content %}
 
-<p>Page avec toutes les critiques et reviews publiées</p>
+<button type="submit"><a href={% url 'add_ticket' %}>Demander une critique</a></button>
+<button type="submit"><a href={% url 'add_review' %}>Créer une critique</a></button>
+{% comment %} <button type="submit"><a href={% url 'add_review_to_ticket' %}>Créer une critique à partir d'un ticket</a></button> {% endcomment %}
 
-    {% if latest_tickets_list %}
+{% for ticket in tickets %}
+    <p>{{ ticket.user }} a demandé une critique</p>
+    <p>{{ ticket.time_created }}</p>
+    <p>{{ ticket.title }}</p>
+    <p>{{ ticket.description }}</p>
+    <p>
+        <img src="{{ ticket.image.url }}">
+    </p>
+{% endfor %}
+
+{% for review in reviews %}
+    <p>{{ review.user }} a posté une critique</p>
+    <p>{{ review.time_created }}</p>
+    <p>{{ review.headline }}</p>
+    <p>{{ review.rating }}</p>
+    <p>{{ review.body }}</p>
+    <p>{{ review.ticket }}</p>
+{% endfor %}
+
+    {% comment %} {% if latest_tickets_list %}
         <ul class="ticket">
             {% for ticket in latest_tickets_list %}
             <li>
@@ -19,6 +40,6 @@
         </ul>
     {% else %}
         <p>Il n'y a pas de tickets.</p>
-    {% endif %}
+    {% endif %} {% endcomment %}
 
 {% endblock content %}

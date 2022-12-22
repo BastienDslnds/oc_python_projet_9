@@ -16,6 +16,7 @@ def login_page(request):
             )
             if user is not None:
                 login(request, user)
+                return redirect('feed')
             else:
                 message = 'Identifiants invalides'
     return render(
@@ -26,7 +27,7 @@ def login_page(request):
 def signup_page(request):
     form = forms.SignupForm()
     if request.method == 'POST':
-        form = forms.SignupForm()
+        form = forms.SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
@@ -36,4 +37,4 @@ def signup_page(request):
 
 def logout_page(request):
     logout(request)
-    return redirect('home')
+    return redirect(settings.LOGOUT_REDIRECT_URL)

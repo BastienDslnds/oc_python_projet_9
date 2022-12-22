@@ -3,11 +3,11 @@
 {% block content %}
 
 <h2>Inscrivez-vous</h2>
-<form action="post">
+<form method="post">
     {{ form.as_p}}
     {% csrf_token %}
+    <button action={% url 'home' %} type='submit'>Retourner</button>
     <button type='submit'>S'inscrire</button>
-    <button type='submit'>Retourner</button>
 </form>
 
 {% endblock content %}

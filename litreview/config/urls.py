@@ -15,42 +15,49 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 import review.views
 import users.views
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("home", users.views.login_page, name='login'),
-    path("signup", users.views.signup_page, name='signup'),
-    path("feed", review.views.feed, name='feed'),
-    path("posts", review.views.posts, name='posts'),
-    path("feed/add-review", review.views.add_review, name='add_review'),
+    path("home/", users.views.login_page, name='home'),
+    path("home/signup/", users.views.signup_page, name='signup'),
+    path("feed/", review.views.feed, name='feed'),
+    path("posts/", review.views.posts, name='posts'),
+    path("feed/add-review/", review.views.add_review, name='add_review'),
     path(
-        "feed/tickets/<int:ticket_id>/add-review",
+        "feed/tickets/<int:ticket_id>/add-review/",
         review.views.add_review_to_ticket,
-        name='add_ticket_review',
+        name='add_review_to_ticket',
     ),
-    path("feed/add-ticket", review.views.add_ticket, name='add_ticket'),
+    path("feed/add-ticket/", review.views.add_ticket, name='add_ticket'),
     path(
-        "posts/reviews/<int:review_id>/change",
+        "posts/reviews/<int:review_id>/change/",
         review.views.change_review,
         name='change_review',
     ),
     path(
-        "posts/ticket/<int:ticket_id>/change",
+        "posts/ticket/<int:ticket_id>/change/",
         review.views.change_ticket,
         name='change_ticket',
     ),
     path(
-        "posts/reviews/<int:review_id>/delete",
+        "posts/reviews/<int:review_id>/delete/",
         review.views.delete_review,
         name='change_review',
     ),
     path(
-        "posts/ticket/<int:ticket_id>/delete",
+        "posts/ticket/<int:ticket_id>/delete/",
         review.views.delete_ticket,
         name='delete_ticket',
     ),
     path("logout", users.views.logout_page, name='logout'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )

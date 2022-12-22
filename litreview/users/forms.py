@@ -12,7 +12,9 @@ class LoginForm(forms.Form):
 
 class SignupForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
-        model = get_user_model()
+        model = (
+            get_user_model()
+        )  # Pour récupérer le modèle User définit dans les settings AUTH_USER_MODEL
         fields = ('username',)
 
 
