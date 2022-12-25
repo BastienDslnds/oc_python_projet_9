@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from . import models
 
 
 class LoginForm(forms.Form):
@@ -18,6 +19,7 @@ class SignupForm(UserCreationForm):
         fields = ('username',)
 
 
-class FollowUserForm(forms.Form):
-    # il faut relié à un user via foreignkey ?
-    pass
+class FollowUserForm(forms.ModelForm):
+    class Meta:
+        model = models.UserFollows
+        fields = ['followed_user']

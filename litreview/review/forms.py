@@ -15,6 +15,9 @@ class ReviewForm(forms.ModelForm):
 
 
 class ReviewOnTicketForm(forms.ModelForm):
+    # ticket champs masqué, placeholder au niveau du html default value
+    # button value='id_ticket'
+
     class Meta:
         model = Review
-        fields = ('ticket', 'headline', 'rating', 'body')
+        fields = ('headline', 'rating', 'body')

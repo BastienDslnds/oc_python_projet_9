@@ -1,0 +1,19 @@
+{% load review_extras %}
+
+<div class="ticket">
+    <p>{% if ticket.user == user %}
+        Vous avez demandé une critique
+        {% else %}
+        {{ ticket.user }} a demandé une critique
+        {% endif %}</p>
+    <p>{{ ticket.time_created }}</p>
+    <p>{{ ticket.title }}</p>
+    <p>{{ ticket.description }}</p>
+    <p>
+        <img src="{{ ticket.image.url }}">
+    </p>
+    {% comment %} {% if ticket|ticket_already_with_review == False %} {% endcomment %}
+        <button type="submit"><a href="{% url 'add_review_to_ticket' ticket.id %}">Créer une critique</a></button>
+    {% comment %} {% endif %} {% endcomment %}
+    
+</div>

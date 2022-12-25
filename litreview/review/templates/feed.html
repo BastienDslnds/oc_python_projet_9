@@ -1,45 +1,25 @@
 {% extends 'base.html' %}
+{% load review_extras %}
 
 {% block content %}
 
-<button type="submit"><a href={% url 'add_ticket' %}>Demander une critique</a></button>
-<button type="submit"><a href={% url 'add_review' %}>Créer une critique</a></button>
-{% comment %} <button type="submit"><a href={% url 'add_review_to_ticket' %}>Créer une critique à partir d'un ticket</a></button> {% endcomment %}
+<div class="feed-button">
+    <button type="submit"><a href={% url 'add_ticket' %}>Demander une critique</a></button>
+    <button type="submit"><a href={% url 'add_review' %}>Créer une critique</a></button>
+</div>
 
-{% for ticket in tickets %}
-    <p>{{ ticket.user }} a demandé une critique</p>
-    <p>{{ ticket.time_created }}</p>
-    <p>{{ ticket.title }}</p>
-    <p>{{ ticket.description }}</p>
-    <p>
-        <img src="{{ ticket.image.url }}">
-    </p>
-{% endfor %}
-
-{% for review in reviews %}
-    <p>{{ review.user }} a posté une critique</p>
-    <p>{{ review.time_created }}</p>
-    <p>{{ review.headline }}</p>
-    <p>{{ review.rating }}</p>
-    <p>{{ review.body }}</p>
-    <p>{{ review.ticket }}</p>
-{% endfor %}
-
-    {% comment %} {% if latest_tickets_list %}
-        <ul class="ticket">
-            {% for ticket in latest_tickets_list %}
-            <li>
-                <p>{{ ticket.user }} a demandé une critique</p>
-                <p>{{ ticket.time_created }}</p>
-                <p>{{ ticket.title }}</p>
-                <button type="submit">
-                    <a href="{% url '' %}">Créer une critique</a>
-                </button>
-            </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Il n'y a pas de tickets.</p>
-    {% endif %} {% endcomment %}
+{% if tickets_and_reviews %}
+    <div class="grid-container">
+        {% for instance in tickets_and_reviews %}
+            {% if instance|model_type == 'Ticket' %}
+                {% include 'partials/ticket_snippet.html' with ticket=instance %}
+            {% elif instance|model_type == 'Review' %}
+                {% include 'partials/review_snippet.html' with review=instance %}    
+            {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    <p>Il n'y a pas de tickets, ni de critiques.</p>
+{% endif %}
 
 {% endblock content %}

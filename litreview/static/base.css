@@ -1,0 +1,67 @@
+header
+{
+    position: relative;
+}
+
+h1
+{
+    text-align: center;
+}
+
+nav 
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#navigation
+{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+}
+
+ul li
+{
+    margin-right: 1rem;
+}
+
+.home
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.inscription, .connexion
+{
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.feed-button
+{
+    display: flex;
+    justify-content: center;
+}
+
+.ticket
+{
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0 1rem 0;
+}
+
+.review
+{
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0 1rem 0;
+}

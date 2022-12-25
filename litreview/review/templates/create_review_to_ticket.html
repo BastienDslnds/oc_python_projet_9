@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Créer une critique</h2>
+
+<p>Vous êtes en train de poster une réponse à</p>
+
+<div class="ticket">
+    <p>{{ticket.user}} a demandé une critique</p>
+    <p>{{ticket.title}}</p>
+    <p>{{ticket.description}}</p>
+    <p>
+        <img src="{{ ticket.image.url }}">
+    </p>
+</div>
+
+<div class="review">
+    <p>Critique</p>
+    <form method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+    <button type="submit">Envoyer</button>
+    </form>
+</div>
+
+<a href={% url 'feed' %} class="button"><button>Retourner</button></a>
+
+{% endblock content %}

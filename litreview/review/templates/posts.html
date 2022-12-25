@@ -1,1 +1,32 @@
+{% extends 'base.html' %}
+
+{% load review_extras %}
+
+{% block content %}
+
 <p>Page avec tous mes posts</p>
+
+{% if tickets_and_reviews %}
+    <div class="grid-container">
+    {% for instance in tickets_and_reviews %}
+        {% if instance|model_type == 'Ticket' %}
+            {% include 'partials/ticket_snippet.html' with ticket=instance %}
+            <div class="button-edit">
+                <button type='submit'>Modifier</button>
+                <button type='submit'>Supprimer</button> 
+            </div>
+        {% elif instance|model_type == 'Review' %}
+            {% include 'partials/review_snippet.html' with review=instance %}  
+            <div class="button-edit">
+                <button type='submit'>Modifier</button>
+                <button type='submit'>Supprimer</button> 
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+{% else %}
+    <p>Vous n'avez pas encore de posts.</p>
+{% endif %}
+
+{% endblock content %}
+
