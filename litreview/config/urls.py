@@ -47,7 +47,7 @@ urlpatterns = [
     path(
         "posts/reviews/<int:review_id>/delete/",
         review.views.delete_review,
-        name='change_review',
+        name='delete_review',
     ),
     path(
         "posts/ticket/<int:ticket_id>/delete/",

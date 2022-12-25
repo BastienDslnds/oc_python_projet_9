@@ -101,19 +101,40 @@ def add_ticket(request):
 
 def change_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
-    return render(request, "change_ticket.html", {'ticket': ticket})
+    form = forms.TicketForm(instance=ticket)
+    if request.method == 'POST':
+        form = forms.TicketForm(request.POST, instance=ticket)
+        if form.is_valid():
+            form.save()
+            return redirect('posts')
+    return render(request, "change_ticket.html", {'form': form})
 
 
 def change_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    return render(request, "change_review.html", {'review': review})
+    ticket = review.ticket
+    form = forms.ReviewForm(instance=review)
+    if request.method == 'POST':
+        form = forms.ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('posts')
+    return render(
+        request, "change_review.html", {'ticket': ticket, 'form': form}
+    )
 
 
 def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
+    if request.method == 'POST':
+        ticket.delete()
+        return redirect('posts')
     return render(request, "delete_ticket.html", {'ticket': ticket})
 
 
 def delete_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
+    if request.method == 'POST':
+        review.delete()
+        return redirect('posts')
     return render(request, "delete_review.html", {'review': review})
