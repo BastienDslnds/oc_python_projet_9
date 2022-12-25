@@ -20,6 +20,16 @@ class SignupForm(UserCreationForm):
 
 
 class FollowUserForm(forms.ModelForm):
+    add_subscription = forms.BooleanField(
+        widget=forms.HiddenInput, initial=True
+    )
+
     class Meta:
         model = models.UserFollows
         fields = ['followed_user']
+
+
+class UnfollowUserForm(forms.Form):
+    delete_subscription = forms.BooleanField(
+        widget=forms.HiddenInput, initial=True
+    )

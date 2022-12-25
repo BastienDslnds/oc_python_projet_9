@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 from . import forms
 from . import models
 
@@ -41,13 +42,33 @@ def logout_page(request):
     return redirect(settings.LOGOUT_REDIRECT_URL)
 
 
-def subscriptions_page(request):
-    form = forms.FollowUserForm()
+def subscriptions_page(request, user_id=1):
+    follow_user_form = forms.FollowUserForm()
+    unfollow_user_form = forms.UnfollowUserForm()
+    subscriptions = models.UserFollows.objects.filter(user=request.user)
+    subscribers = models.UserFollows.objects.filter(followed_user=request.user)
+    print(request.POST)
     if request.method == 'POST':
-        form = forms.FollowUserForm(request.POST)
-        if form.is_valid():
-            userfollow = form.save(commit=False)
-            userfollow.user = request.user
-            userfollow.save()
-            return redirect('subscriptions')
-    return render(request, "subscriptions.html", {'form': form})
+        if 'add_subscription' in request.POST:
+            follow_user_form = forms.FollowUserForm(request.POST)
+            if follow_user_form.is_valid():
+                userfollow = follow_user_form.save(commit=False)
+                userfollow.user = request.user
+                userfollow.save()
+                return redirect('subscriptions')
+        if 'delete_subscription' in request.POST:
+            followed_user = get_object_or_404(models.User, pk=user_id)
+            user_follow = models.UserFollows.objects.filter(
+                user=request.user, followed_user=followed_user
+            )
+            user_follow.delete()
+    return render(
+        request,
+        "subscriptions.html",
+        {
+            'follow_user_form': follow_user_form,
+            'unfollow_user_form': unfollow_user_form,
+            'subscriptions': subscriptions,
+            'subscribers': subscribers,
+        },
+    )
