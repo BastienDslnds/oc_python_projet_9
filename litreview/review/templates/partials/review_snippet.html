@@ -2,14 +2,14 @@
 
 <div class="review">
     <p>{% if review.user == user %}
-        Vous avez posté une critique
+        Vous avez publié une critique
         {% else %}
-        {{ review.user }} a posté une critique
+        {{ review.user }} a publié une critique
         {% endif %}</p>
     <p>{{ review.time_created }}</p>
     <p>{{ review.headline }} - {{ review.rating }}</p>
     <p>{{ review.body }}</p>
-    <div class="ticket">
+    <div class="ticket-review">
         <p>Ticket - {{review.ticket.user}}</p>
         <p>{{ review.ticket.title }}</p>
         <p>

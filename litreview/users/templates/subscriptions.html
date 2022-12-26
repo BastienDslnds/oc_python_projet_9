@@ -2,33 +2,42 @@
 
 {% block content %}
 
-<div>
-    <h2>Suivre d'autres utilisateurs</h2>
-    <form method="post">
-        {{ follow_user_form.as_p }}
-        {% csrf_token %}
-    <button type='submit'>Envoyer</button>
-    </form>
-</div>
+<div class="subscriptions-page">
 
-<div class="subscriptions">
-    <h2>Abonnements</h2>
-    {% for subscription in subscriptions %}
-        <p>{{ subscription.followed_user.username }}</p>
-        <form method="post">
-            {{ unfollow_user_form.as_p }}
+    <div class="follow">
+        <h2>Suivre d'autres utilisateurs</h2>
+        <form method="post" class="follow-form">
+            {{ follow_user_form.as_p }}
             {% csrf_token %}
-            <button type='submit'>Se désabonner</button>
+            <button type='submit'>Envoyer</button>
         </form>
-        
-    {% endfor %}
+    </div>
+    
+    <div class="subscriptions">
+        <h2>Abonnements</h2>
+        {% for subscription in subscriptions %}
+            <div class="subscription">
+                <p>{{ subscription.followed_user.username }}</p>
+                <form method="post">
+                    {{ unfollow_user_form.as_p }}
+                    {% csrf_token %}
+                    <button type='submit'>Se désabonner</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="subscribers">
+        <h2>Abonnés</h2>
+        <div class="subscribers-list">
+            {% for subscriber in subscribers %}
+            <p>{{ subscriber.user.username }}</p>
+        {% endfor %}
+        </div>
+    </div>
+
+
 </div>
 
-<div class="subscribers">
-    <h2>Abonnés</h2>
-    {% for subscriber in subscribers %}
-        <p>{{ subscribers.user.username }}</p>
-    {% endfor %}
-</div>
 
 {% endblock content %}

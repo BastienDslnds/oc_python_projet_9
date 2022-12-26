@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Ticket, Review
 from itertools import chain
 from . import forms
 
 
+@login_required
 def feed(request):
     """View with latest tickets and reviews from users followed.
 
@@ -25,6 +27,7 @@ def feed(request):
     )
 
 
+@login_required
 def posts(request):
     """View with our own tickets and reviews.
 
@@ -46,6 +49,7 @@ def posts(request):
     )
 
 
+@login_required
 def add_review(request):
     review_form = forms.ReviewForm()
     ticket_form = forms.TicketForm()
@@ -68,6 +72,7 @@ def add_review(request):
     )
 
 
+@login_required
 def add_review_to_ticket(request, ticket_id):
     review_form = forms.ReviewOnTicketForm()
     ticket = get_object_or_404(Ticket, pk=ticket_id)
@@ -86,6 +91,7 @@ def add_review_to_ticket(request, ticket_id):
     )
 
 
+@login_required
 def add_ticket(request):
     form = forms.TicketForm()
     if request.method == 'POST':
@@ -99,6 +105,7 @@ def add_ticket(request):
     return render(request, "create_ticket.html", {'form': form})
 
 
+@login_required
 def change_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     form = forms.TicketForm(instance=ticket)
@@ -110,6 +117,7 @@ def change_ticket(request, ticket_id):
     return render(request, "change_ticket.html", {'form': form})
 
 
+@login_required
 def change_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
     ticket = review.ticket
@@ -124,6 +132,7 @@ def change_review(request, review_id):
     )
 
 
+@login_required
 def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     if request.method == 'POST':
@@ -132,6 +141,7 @@ def delete_ticket(request, ticket_id):
     return render(request, "delete_ticket.html", {'ticket': ticket})
 
 
+@login_required
 def delete_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
     if request.method == 'POST':

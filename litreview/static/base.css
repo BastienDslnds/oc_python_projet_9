@@ -32,11 +32,19 @@ ul li
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
 }
 
-.inscription, .connexion
+.home-block
 {
-    margin: 1rem;
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inscription
+{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,22 +54,119 @@ ul li
 {
     display: flex;
     justify-content: center;
+
 }
 
-.ticket
+.button
 {
-    background-color: red;
+ margin: 2rem;
+}
+
+main
+{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 1rem 0 1rem 0;
+}
+
+.feed-page
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
 }
 
 .review
 {
-    background-color: green;
+    background-color: grey;
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin: 1rem 0 1rem 0;
+}
+
+.ticket
+{
+    background-color: white;
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin: 1rem 0 1rem 0;
+}
+
+.ticket-review
+{
+    background-color: white;
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin: 1rem;
+}
+
+.subscriptions-page
+{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+.subscription
+{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.subscription form
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.follow, .subscriptions, .subscribers
+{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 1rem 0 1rem 0;
+    background-color: grey;
+    margin: 1rem;
+}
+
+.ticket-form, .review-form
+{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.ticket-form p, .review-form p
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.ticket-form button, .review-form button
+{
+    align-self: flex-end;
+}
+
+.follow-form
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.subscribers-list
+{
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    width: 100%;
 }

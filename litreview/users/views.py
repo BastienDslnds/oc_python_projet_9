@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 from . import forms
 from . import models
 
@@ -37,17 +37,18 @@ def signup_page(request):
     return render(request, "signup.html", {'form': form})
 
 
+@login_required
 def logout_page(request):
     logout(request)
     return redirect(settings.LOGOUT_REDIRECT_URL)
 
 
+@login_required
 def subscriptions_page(request, user_id=1):
     follow_user_form = forms.FollowUserForm()
     unfollow_user_form = forms.UnfollowUserForm()
     subscriptions = models.UserFollows.objects.filter(user=request.user)
     subscribers = models.UserFollows.objects.filter(followed_user=request.user)
-    print(request.POST)
     if request.method == 'POST':
         if 'add_subscription' in request.POST:
             follow_user_form = forms.FollowUserForm(request.POST)

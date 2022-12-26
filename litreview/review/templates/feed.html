@@ -3,23 +3,28 @@
 
 {% block content %}
 
-<div class="feed-button">
-    <button type="submit"><a href={% url 'add_ticket' %}>Demander une critique</a></button>
-    <button type="submit"><a href={% url 'add_review' %}>Créer une critique</a></button>
+<div class="feed-page">
+
+    <div class="feed-button">
+        <a href={% url 'add_ticket' %} class='button'><button>Demander une critique</button></a>
+        <a href={% url 'add_review' %} class='button'><button>Créer une critique</button></a>
+    </div>
+    
+    {% if tickets_and_reviews %}
+        <div class="feed-container">
+            {% for instance in tickets_and_reviews %}
+                {% if instance|model_type == 'Ticket' %}
+                    {% include 'partials/ticket_snippet.html' with ticket=instance %}
+                {% elif instance|model_type == 'Review' %}
+                    {% include 'partials/review_snippet.html' with review=instance %}    
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Il n'y a pas de tickets, ni de critiques.</p>
+    {% endif %}
+
 </div>
 
-{% if tickets_and_reviews %}
-    <div class="grid-container">
-        {% for instance in tickets_and_reviews %}
-            {% if instance|model_type == 'Ticket' %}
-                {% include 'partials/ticket_snippet.html' with ticket=instance %}
-            {% elif instance|model_type == 'Review' %}
-                {% include 'partials/review_snippet.html' with review=instance %}    
-            {% endif %}
-        {% endfor %}
-    </div>
-{% else %}
-    <p>Il n'y a pas de tickets, ni de critiques.</p>
-{% endif %}
 
 {% endblock content %}
