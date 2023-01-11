@@ -1,19 +1,31 @@
 {% load review_extras %}
 
-<div class="review">
-    <p>{% if review.user == user %}
-        Vous avez publié une critique
+
+<!-- data review section -->
+<p>{% if review.user == user %}
+    Vous avez publié une critique
+    {% else %}
+    {{ review.user }} a publié une critique
+    {% endif %}</p>
+<p class="date">{{ review.time_created|date:'H:i, d M Y' }}</p>
+<p>{{ review.headline }}</p>
+<p class="rating"><img src="../rating_3.png" width="100" height="25" alt="test"></p>
+<p class="description">{{ review.body }}</p>
+
+<!-- data ticket section -->
+<div class="ticket-review">
+    <p>Ticket - 
+        {% if review.user == user %}
+        Vous
         {% else %}
-        {{ review.user }} a publié une critique
+        {{ review.ticket.user }}
         {% endif %}</p>
-    <p>{{ review.time_created }}</p>
-    <p>{{ review.headline }} - {{ review.rating }}</p>
-    <p>{{ review.body }}</p>
-    <div class="ticket-review">
-        <p>Ticket - {{review.ticket.user}}</p>
-        <p>{{ review.ticket.title }}</p>
-        <p>
-            <img src="{{ review.ticket.image.url }}">
-        </p>
-    </div>
+    <p>{{ review.ticket.title }}</p>
+    <p class="date">{{ review.ticket.time_created|date:'H:i, d M Y' }}</p>
+    <p>
+        <img src="{{ review.ticket.image.url }}" width="200" height="300">
+    </p>
+    {% if tickets_already_with_review|review_done:review.ticket.pk == False %}
+        <a href="{% url 'add_review_to_ticket' review.ticket.id %}" class='ticket-button'><button>Créer une critique</button></a>
+    {% endif %}
 </div>

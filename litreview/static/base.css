@@ -1,18 +1,32 @@
+body {
+    background-color: rgb(128, 128, 128, 0.3);
+}
 header
 {
-    position: relative;
+    display: flex;
+    background-color: red;
+}
+
+main
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem;
 }
 
 h1
 {
-    text-align: center;
+    text-align: left;
+    flex: 3;
+    margin: 0;
 }
 
 nav 
 {
-    position: absolute;
-    top: 0;
-    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
 }
 
 #navigation
@@ -20,6 +34,8 @@ nav
     list-style-type: none;
     display: flex;
     flex-direction: row;
+    align-items: center;
+    margin: 0;
 }
 
 ul li
@@ -62,23 +78,22 @@ ul li
  margin: 2rem;
 }
 
-main
-{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.feed-page
-{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 60%;
-}
-
 .review
 {
+    position: relative;
+    background-color: white;
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin: 1rem 0 1rem 0;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.ticket
+{
+    position: relative;
     background-color: grey;
     border: 3px solid black;
     display: flex;
@@ -87,19 +102,24 @@ main
     margin: 1rem 0 1rem 0;
 }
 
-.ticket
-{
-    background-color: white;
-    border: 3px solid black;
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    margin: 1rem 0 1rem 0;
+
+.ticket p, .review p {
+    margin: 0.5rem;
+}
+
+.ticket a, .review a {
+    padding: 0;
+    margin: 0.5rem;
+}
+
+.ticket-image {
+    object-fit: contain;
 }
 
 .ticket-review
 {
-    background-color: white;
+    position: relative;
+    background-color: grey;
     border: 3px solid black;
     display: flex;
     flex-direction: column;
@@ -107,11 +127,15 @@ main
     margin: 1rem;
 }
 
+.posts-container, .feed-container {
+    width: 50%;
+}
+
 .subscriptions-page
 {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 50%;
 }
 
 .subscription
@@ -134,7 +158,8 @@ main
     flex-direction: column;
     align-items: center;
     background-color: grey;
-    margin: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
 }
 
 .ticket-form, .review-form
@@ -142,6 +167,8 @@ main
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    border: 3px solid black;
+    padding: 1rem;
 }
 
 .ticket-form p, .review-form p
@@ -154,6 +181,14 @@ main
 {
     align-self: flex-end;
 }
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid black;
+    justify-content: baseline;
+}
+
 
 .follow-form
 {
@@ -169,4 +204,44 @@ main
     flex-direction: column;
     align-content: flex-start;
     width: 100%;
+}
+
+.ticket-posts, .review-posts {
+    position: relative;
+    border: 3px solid black;
+    margin: 0rem;
+}
+
+.button-edit {
+    display: flex;
+    justify-content: end;
+}
+
+.button-edit a {
+    margin: 0.5rem;
+}
+
+.date {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 1rem;
+}
+
+.ticket-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 1rem;
+}
+
+.delete {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+#id_rating {
+    list-style-type: none;
+    display: flex;
 }

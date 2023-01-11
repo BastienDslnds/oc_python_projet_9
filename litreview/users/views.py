@@ -44,11 +44,12 @@ def logout_page(request):
 
 
 @login_required
-def subscriptions_page(request, user_id=1):
+def subscriptions_page(request):
     follow_user_form = forms.FollowUserForm()
     unfollow_user_form = forms.UnfollowUserForm()
     subscriptions = models.UserFollows.objects.filter(user=request.user)
     subscribers = models.UserFollows.objects.filter(followed_user=request.user)
+    print(request.POST)
     if request.method == 'POST':
         if 'add_subscription' in request.POST:
             follow_user_form = forms.FollowUserForm(request.POST)
@@ -58,11 +59,13 @@ def subscriptions_page(request, user_id=1):
                 userfollow.save()
                 return redirect('subscriptions')
         if 'delete_subscription' in request.POST:
-            followed_user = get_object_or_404(models.User, pk=user_id)
+            followed_user_id = request.POST.get('followed_user_id')
+            followed_user = get_object_or_404(models.User, pk=followed_user_id)
             user_follow = models.UserFollows.objects.filter(
                 user=request.user, followed_user=followed_user
             )
             user_follow.delete()
+            return redirect('subscriptions')
     return render(
         request,
         "subscriptions.html",

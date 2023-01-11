@@ -6,9 +6,11 @@
 
 <form method="post" class="review-form" enctype="multipart/form-data">
     <div>
+        <h3>Livre / Article</h3>
         {{ ticket_form.as_p }}
     </div>
     <div>
+        <h3>Critique</h3>
         {{ review_form.as_p }}
     </div>
     {% csrf_token %}

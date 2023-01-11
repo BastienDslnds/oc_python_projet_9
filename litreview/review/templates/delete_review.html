@@ -4,12 +4,19 @@
 
 <h2>Supprimer la critique</h2>
 
-<p>Etes-vous sûr de vouloir supprimer la critique sur le ticket: {{ review.ticket.title}} ?</p>
+<div class="review-form">
+    <p>Etes-vous sûr de vouloir supprimer la critique sur le ticket: {{ review.ticket.title}} ?</p>
 
-<form action="" method="post">
-    {% csrf_token %}
-    <input type="submit" value="Supprimer">
-</form>
-<a href={% url 'posts' %}><button>Annuler</button></a>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Supprimer">
+    </form>
+
+</div>
+
+    <a href={% url 'posts' %} class="button"><button>Annuler</button></a>
+    
+
+
 
 {% endblock content %}

@@ -21,7 +21,7 @@
                 <form method="post">
                     {{ unfollow_user_form.as_p }}
                     {% csrf_token %}
-                    <button type='submit'>Se désabonner</button>
+                    <button type='submit' name="followed_user_id" value="{{ subscription.followed_user.id }}">Se désabonner</button></a> 
                 </form>
             </div>
         {% endfor %}

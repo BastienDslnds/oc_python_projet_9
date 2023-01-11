@@ -7,7 +7,7 @@ from . import models
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30, label="Nom d'utilisateur")
     password = forms.CharField(
-        max_length=30, widget=forms.PasswordInput, label="mot de passe"
+        max_length=30, widget=forms.PasswordInput, label="Mot de passe"
     )
 
 
@@ -17,6 +17,7 @@ class SignupForm(UserCreationForm):
             get_user_model()
         )  # Pour récupérer le modèle User définit dans les settings AUTH_USER_MODEL
         fields = ('username',)
+        help_texts = {'username': None}
 
 
 class FollowUserForm(forms.ModelForm):

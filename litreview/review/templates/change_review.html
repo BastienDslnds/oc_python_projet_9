@@ -4,22 +4,29 @@
 
 <h2>Modifier votre critique</h2>
 
-<div class="ticket">
-    <p>Vous êtes en train de poster une réponse à</p>
-    <p>{{ ticket.user }} a demandé une critique</p>
-    <p>{{ ticket.time_created }}</p>
-    <p>{{ ticket.title }}</p>
-    <p>{{ ticket.description }}</p>
-    <p>
-        <img src="{{ ticket.image.url }}">
-    </p>
+<div class="review-form">
+    <h3>Vous êtes en train de poster une réponse à</h3>
+
+    <div class="ticket">
+        <p>{{ ticket.user }} a demandé une critique</p>
+        <p>{{ ticket.time_created }}</p>
+        <p>{{ ticket.title }}</p>
+        <p>{{ ticket.description }}</p>
+        <p>
+            <img src="{{ ticket.image.url }}">
+        </p>
+    </div>
+
+    <h3>Critique</h3>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button type='submit'>Envoyer</button>
+    </form>
 </div>
 
-<form method="post" enctype="multipart/form-data">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <button type='submit'>Envoyer</button>
-</form>
+<a href={% url 'posts' %} class="button"><button>Retourner</button></a>
 
+    
 
 {% endblock content %}

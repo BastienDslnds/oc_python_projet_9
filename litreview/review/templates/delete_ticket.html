@@ -2,14 +2,22 @@
 
 {% block content %}
 
+
 <h2>Supprimer le ticket</h2>
 
-<p>Etes-vous sûr de vouloir supprimer le ticket: {{ ticket.title}} ?</p>
+<div class="ticket-form">
 
-<form action="" method="post">
+    <p>Etes-vous sûr de vouloir supprimer le ticket: {{ ticket.title}} ?</p>
+
+    <form action="" method="post">
     {% csrf_token %}
     <input type="submit" value="Supprimer">
-</form>
-<a href={% url 'posts' %}><button>Annuler</button></a>
+    </form>
+
+</div>
+
+<a href={% url 'posts' %} class="button"><button>Annuler</button></a>
+
+
 
 {% endblock content %}

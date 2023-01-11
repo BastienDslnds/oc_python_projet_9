@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from .models import Ticket, Review
 from itertools import chain
 from . import forms
@@ -17,13 +18,35 @@ def feed(request):
     """
     tickets = Ticket.objects.all()
     reviews = Review.objects.all()
+    tickets_already_with_review = {}
+    for ticket in tickets:
+        key = f"{ticket.pk}"
+        if (
+            ticket in Ticket.objects.filter(review__user=request.user)
+            or ticket.user == request.user
+        ):
+            tickets_already_with_review[key] = True
+        else:
+            tickets_already_with_review[key] = False
     tickets_and_reviews = sorted(
         chain(tickets, reviews),
         key=lambda instance: instance.time_created,
         reverse=True,
     )
+    print(tickets_already_with_review)
+
+    paginator = Paginator(tickets_and_reviews, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(
-        request, "feed.html", {'tickets_and_reviews': tickets_and_reviews}
+        request,
+        "feed.html",
+        {
+            'tickets_and_reviews': tickets_and_reviews,
+            'tickets_already_with_review': tickets_already_with_review,
+            'page_obj': page_obj,
+        },
     )
 
 
@@ -110,7 +133,7 @@ def change_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     form = forms.TicketForm(instance=ticket)
     if request.method == 'POST':
-        form = forms.TicketForm(request.POST, instance=ticket)
+        form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form.save()
             return redirect('posts')

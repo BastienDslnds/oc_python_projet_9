@@ -10,16 +10,20 @@
     <div class="posts-container">
     {% for instance in tickets_and_reviews %}
         {% if instance|model_type == 'Ticket' %}
-            {% include 'partials/ticket_snippet.html' with ticket=instance %}
-            <div class="button-edit">
-                <a href="{% url 'change_ticket' instance.id %}" class="button"><button>Modifier</button></a>
-                <a href="{% url 'delete_ticket' instance.id %}" class="button"><button>Supprimer</button></a> 
+            <div class="ticket">
+                {% include 'partials/ticket_snippet.html' with ticket=instance %}
+                <div class="button-edit">
+                    <a href="{% url 'change_ticket' instance.id %}" class="button"><button>Modifier</button></a>
+                    <a href="{% url 'delete_ticket' instance.id %}" class="button"><button>Supprimer</button></a> 
+                </div>
             </div>
         {% elif instance|model_type == 'Review' %}
-            {% include 'partials/review_snippet.html' with review=instance %}  
-            <div class="button-edit">
-                <a href="{% url 'change_review' instance.id %}" class="button"><button>Modifier</button></a>
-                <a href="{% url 'delete_review' instance.id %}" class="button"><button>Supprimer</button></a>
+            <div class="review">
+                {% include 'partials/review_snippet.html' with review=instance %}  
+                <div class="button-edit">
+                    <a href="{% url 'change_review' instance.id %}" class="button"><button>Modifier</button></a>
+                    <a href="{% url 'delete_review' instance.id %}" class="button"><button>Supprimer</button></a>
+                </div>
             </div>
         {% endif %}
     {% endfor %}

@@ -4,25 +4,29 @@
 
 <h2>Créer une critique</h2>
 
-<p>Vous êtes en train de poster une réponse à</p>
+<div class="review-form">
 
-<div class="ticket">
-    <p>{{ticket.user}} a demandé une critique</p>
-    <p>{{ticket.title}}</p>
-    <p>{{ticket.description}}</p>
-    <p>
-        <img src="{{ ticket.image.url }}">
-    </p>
+    <h3>Vous êtes en train de poster une réponse à</h3>
+    <div class="ticket">
+        <p>{{ticket.user}} a demandé une critique</p>
+        <p>{{ticket.title}}</p>
+        <p>{{ticket.description}}</p>
+        <p class="ticket-image">
+            <img src="{{ ticket.image.url }}">
+        </p>
+    </div>
+    
+    <div>
+        <h3>Critique</h3>
+        <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+        <button type="submit">Envoyer</button>
+        </form>
+    </div>
+
 </div>
 
-<div class="review">
-    <p>Critique</p>
-    <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-    <button type="submit">Envoyer</button>
-    </form>
-</div>
 
 <a href={% url 'feed' %} class="button"><button>Retourner</button></a>
 

@@ -57,6 +57,11 @@ urlpatterns = [
     path(
         "subscriptions/", users.views.subscriptions_page, name='subscriptions'
     ),
+    path(
+        "subscriptions/<int:user_id>/delete",
+        users.views.subscriptions_page,
+        name='subscriptions',
+    ),
     path("logout/", users.views.logout_page, name='logout'),
 ]
 

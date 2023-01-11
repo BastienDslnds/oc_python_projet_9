@@ -3,8 +3,6 @@
 
 {% block content %}
 
-<div class="feed-page">
-
     <div class="feed-button">
         <a href={% url 'add_ticket' %} class='button'><button>Demander une critique</button></a>
         <a href={% url 'add_review' %} class='button'><button>Créer une critique</button></a>
@@ -14,17 +12,40 @@
         <div class="feed-container">
             {% for instance in tickets_and_reviews %}
                 {% if instance|model_type == 'Ticket' %}
+                <div class="ticket">
                     {% include 'partials/ticket_snippet.html' with ticket=instance %}
+                    {% if tickets_already_with_review|review_done:instance.pk == False %}
+                        <a href="{% url 'add_review_to_ticket' instance.id %}" class='ticket-button'><button>Créer une critique</button></a>
+                    {% endif %}
+                </div>
                 {% elif instance|model_type == 'Review' %}
-                    {% include 'partials/review_snippet.html' with review=instance %}    
-                {% endif %}
+                <div class="review">
+                    {% include 'partials/review_snippet.html' with review=instance %}
+                </div>
+                {% endif %}    
             {% endfor %}
         </div>
     {% else %}
         <p>Il n'y a pas de tickets, ni de critiques.</p>
     {% endif %}
 
-</div>
+    <span>
+        {% if page_obj.has_previous %}
+            <a href="?page=1">« première</a>
+            <a href="?page={{ page_obj.previous_page_number }}">précédente</a>
+        {% endif %}
+    
+        <span>
+            Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">suivante</a>
+            
+            <a href="?page={{ page_obj.paginator.num_pages }}">dernière »</a>
+        {% endif %}
+    </span>
+
 
 
 {% endblock content %}
