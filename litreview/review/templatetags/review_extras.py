@@ -19,3 +19,11 @@ def get_review_display(context, user):
 @register.filter
 def review_done(dictionary, key):
     return dictionary.get(str(key))
+
+
+@register.filter
+def review_rating_url(value):
+    url = "../rating_" + str(value.rating) + ".png"
+    # url = "../../../media/ratings/rating_" + str(value.rating) + ".png"
+    print(url)
+    return url

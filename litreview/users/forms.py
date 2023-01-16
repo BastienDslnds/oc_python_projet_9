@@ -5,6 +5,8 @@ from . import models
 
 
 class LoginForm(forms.Form):
+    """Form to login with a username and a password."""
+
     username = forms.CharField(max_length=30, label="Nom d'utilisateur")
     password = forms.CharField(
         max_length=30, widget=forms.PasswordInput, label="Mot de passe"
@@ -12,6 +14,8 @@ class LoginForm(forms.Form):
 
 
 class SignupForm(UserCreationForm):
+    """Form to sign up with a username, a password and a password confirmation."""
+
     class Meta(UserCreationForm.Meta):
         model = (
             get_user_model()
@@ -21,6 +25,8 @@ class SignupForm(UserCreationForm):
 
 
 class FollowUserForm(forms.ModelForm):
+    """Form to follow a user."""
+
     add_subscription = forms.BooleanField(
         widget=forms.HiddenInput, initial=True
     )
@@ -31,6 +37,8 @@ class FollowUserForm(forms.ModelForm):
 
 
 class UnfollowUserForm(forms.Form):
+    """Form to unfollow a user."""
+
     delete_subscription = forms.BooleanField(
         widget=forms.HiddenInput, initial=True
     )

@@ -4,16 +4,16 @@ from django.conf import settings
 
 
 class User(AbstractUser):
-    """Classe contenant tous les champs et méthodes de User par défaut.
-
-    Args:
-        AbstractUser (_type_): _description_
-    """
+    """Class with fields and methods of a User by default."""
 
     pass
 
 
 class UserFollows(models.Model):
+    """Definition of a subscription.
+    A user can follow another user called a followed_user.
+    """
+
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

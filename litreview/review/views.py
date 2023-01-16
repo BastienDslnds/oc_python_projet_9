@@ -8,13 +8,14 @@ from . import forms
 
 @login_required
 def feed(request):
-    """View with latest tickets and reviews from users followed.
+    """View with latest tickets and reviews
+    from the user authenticated and his followed users.
 
     Args:
-        request (_type_): _description_
+        request (django.core.handlers.wsgi.WSGIRequest): request
 
     Returns:
-        _type_: _description_
+       response (django.http.response.HttpResponse): response to the request
     """
     tickets = Ticket.objects.all()
     reviews = Review.objects.all()
@@ -33,13 +34,12 @@ def feed(request):
         key=lambda instance: instance.time_created,
         reverse=True,
     )
-    print(tickets_already_with_review)
 
     paginator = Paginator(tickets_and_reviews, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(
+    response = render(
         request,
         "feed.html",
         {
@@ -49,16 +49,18 @@ def feed(request):
         },
     )
 
+    return response
+
 
 @login_required
 def posts(request):
-    """View with our own tickets and reviews.
+    """View with tickets and reviews from the authenticated user.
 
     Args:
-        request (_type_): _description_
+        request (django.core.handlers.wsgi.WSGIRequest): request
 
     Returns:
-        _type_: _description_
+       response (django.http.response.HttpResponse): response to the request
     """
     tickets = Ticket.objects.filter(user=request.user)
     reviews = Review.objects.filter(user=request.user)
@@ -67,13 +69,22 @@ def posts(request):
         key=lambda instance: instance.time_created,
         reverse=True,
     )
-    return render(
+    response = render(
         request, "posts.html", {'tickets_and_reviews': tickets_and_reviews}
     )
+    return response
 
 
 @login_required
 def add_review(request):
+    """View to add a ticket and a an associated review.
+
+    Args:
+        request (django.core.handlers.wsgi.WSGIRequest): request
+
+    Returns:
+       response (django.http.response.HttpResponse): response to the request
+    """
     review_form = forms.ReviewForm()
     ticket_form = forms.TicketForm()
     if request.method == 'POST':
@@ -88,34 +99,52 @@ def add_review(request):
             review.ticket = ticket
             review.save()
             return redirect('feed')
-    return render(
+    response = render(
         request,
         "create_review.html",
         {'review_form': review_form, 'ticket_form': ticket_form},
     )
+    return response
 
 
 @login_required
 def add_review_to_ticket(request, ticket_id):
-    review_form = forms.ReviewOnTicketForm()
+    """View to add a review in response of an existing ticket.
+
+    Args:
+        request (django.core.handlers.wsgi.WSGIRequest): request
+
+    Returns:
+       response (django.http.response.HttpResponse): response to the request
+    """
+    review_form = forms.ReviewForm()
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     if request.method == 'POST':
-        review_form = forms.ReviewOnTicketForm(request.POST)
+        review_form = forms.ReviewForm(request.POST)
         if review_form.is_valid():
             review = review_form.save(commit=False)
             review.user = request.user
             review.ticket = ticket
             review.save()
             return redirect('feed')
-    return render(
+    response = render(
         request,
         "create_review_to_ticket.html",
         {'ticket': ticket, 'form': review_form},
     )
+    return response
 
 
 @login_required
 def add_ticket(request):
+    """View to add a ticket.
+
+    Args:
+        request (django.core.handlers.wsgi.WSGIRequest): request
+
+    Returns:
+       response (django.http.response.HttpResponse): response to the request
+    """
     form = forms.TicketForm()
     if request.method == 'POST':
         form = forms.TicketForm(request.POST, request.FILES)
@@ -125,11 +154,20 @@ def add_ticket(request):
             ticket.user = request.user
             ticket.save()
             return redirect('feed')
-    return render(request, "create_ticket.html", {'form': form})
+    response = render(request, "create_ticket.html", {'form': form})
+    return response
 
 
 @login_required
 def change_ticket(request, ticket_id):
+    """View to modify a ticket.
+
+    Args:
+        request (django.core.handlers.wsgi.WSGIRequest): request
+
+    Returns:
+       response (django.http.response.HttpResponse): response to the request
+    """
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     form = forms.TicketForm(instance=ticket)
     if request.method == 'POST':
@@ -137,11 +175,20 @@ def change_ticket(request, ticket_id):
         if form.is_valid():
             form.save()
             return redirect('posts')
-    return render(request, "change_ticket.html", {'form': form})
+    response = render(request, "change_ticket.html", {'form': form})
+    return response
 
 
 @login_required
 def change_review(request, review_id):
+    """View to modify a review.
+
+    Args:
+        request (django.core.handlers.wsgi.WSGIRequest): request
+
+    Returns:
+       response (django.http.response.HttpResponse): response to the request
+    """
     review = get_object_or_404(Review, pk=review_id)
     ticket = review.ticket
     form = forms.ReviewForm(instance=review)
@@ -150,24 +197,43 @@ def change_review(request, review_id):
         if form.is_valid():
             form.save()
             return redirect('posts')
-    return render(
+    response = render(
         request, "change_review.html", {'ticket': ticket, 'form': form}
     )
+    return response
 
 
 @login_required
 def delete_ticket(request, ticket_id):
+    """View to delete a ticket.
+
+    Args:
+        request (django.core.handlers.wsgi.WSGIRequest): request
+
+    Returns:
+       response (django.http.response.HttpResponse): response to the request
+    """
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     if request.method == 'POST':
         ticket.delete()
         return redirect('posts')
-    return render(request, "delete_ticket.html", {'ticket': ticket})
+    response = render(request, "delete_ticket.html", {'ticket': ticket})
+    return response
 
 
 @login_required
 def delete_review(request, review_id):
+    """View to delete a review.
+
+    Args:
+        request (django.core.handlers.wsgi.WSGIRequest): request
+
+    Returns:
+       response (django.http.response.HttpResponse): response to the request
+    """
     review = get_object_or_404(Review, pk=review_id)
     if request.method == 'POST':
         review.delete()
         return redirect('posts')
-    return render(request, "delete_review.html", {'review': review})
+    response = render(request, "delete_review.html", {'review': review})
+    return response

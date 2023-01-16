@@ -7,6 +7,14 @@ from . import models
 
 
 def login_page(request):
+    """View to login.
+
+    Args:
+        request (django.core.handlers.wsgi.WSGIRequest): request
+
+    Returns:
+       response (django.http.response.HttpResponse): response to the request
+    """
     form = forms.LoginForm()
     message = ''
     if request.method == 'POST':
@@ -21,12 +29,21 @@ def login_page(request):
                 return redirect('feed')
             else:
                 message = 'Identifiants invalides'
-    return render(
+    response = render(
         request, "home.html", context={'form': form, 'message': message}
     )
+    return response
 
 
 def signup_page(request):
+    """View to sign up.
+
+    Args:
+        request (django.core.handlers.wsgi.WSGIRequest): request
+
+    Returns:
+       response (django.http.response.HttpResponse): response to the request
+    """
     form = forms.SignupForm()
     if request.method == 'POST':
         form = forms.SignupForm(request.POST)
@@ -34,22 +51,39 @@ def signup_page(request):
             user = form.save()
             login(request, user)
             return redirect(settings.LOGIN_REDIRECT_URL)
-    return render(request, "signup.html", {'form': form})
+    response = render(request, "signup.html", {'form': form})
+    return response
 
 
 @login_required
 def logout_page(request):
+    """View to logout.
+
+    Args:
+        request (django.core.handlers.wsgi.WSGIRequest): request
+
+    Returns:
+       response (django.http.response.HttpResponseRedirect): response to the request
+    """
     logout(request)
-    return redirect(settings.LOGOUT_REDIRECT_URL)
+    response = redirect(settings.LOGOUT_REDIRECT_URL)
+    return response
 
 
 @login_required
 def subscriptions_page(request):
+    """View to follow or unfollow a user.
+
+    Args:
+        request (django.core.handlers.wsgi.WSGIRequest): request
+
+    Returns:
+       response (django.http.response.HttpResponse): response to the request
+    """
     follow_user_form = forms.FollowUserForm()
     unfollow_user_form = forms.UnfollowUserForm()
     subscriptions = models.UserFollows.objects.filter(user=request.user)
     subscribers = models.UserFollows.objects.filter(followed_user=request.user)
-    print(request.POST)
     if request.method == 'POST':
         if 'add_subscription' in request.POST:
             follow_user_form = forms.FollowUserForm(request.POST)
@@ -66,7 +100,7 @@ def subscriptions_page(request):
             )
             user_follow.delete()
             return redirect('subscriptions')
-    return render(
+    response = render(
         request,
         "subscriptions.html",
         {
@@ -76,3 +110,4 @@ def subscriptions_page(request):
             'subscribers': subscribers,
         },
     )
+    return response

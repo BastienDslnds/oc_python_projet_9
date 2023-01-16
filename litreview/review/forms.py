@@ -12,24 +12,16 @@ RATING_CHOICES = [
 
 
 class TicketForm(forms.ModelForm):
+    """Form to create a ticket."""
+
     class Meta:
         model = Ticket
         fields = ['title', 'description', 'image']
 
 
 class ReviewForm(forms.ModelForm):
-    rating = forms.TypedChoiceField(
-        widget=forms.RadioSelect, choices=RATING_CHOICES, coerce=int
-    )
+    """Form to create a review."""
 
-    class Meta:
-        model = Review
-        fields = ('headline', 'rating', 'body')
-
-
-class ReviewOnTicketForm(forms.ModelForm):
-    # ticket champs masqué, placeholder au niveau du html default value
-    # button value='id_ticket'
     rating = forms.TypedChoiceField(
         widget=forms.RadioSelect, choices=RATING_CHOICES, coerce=int
     )
