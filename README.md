@@ -22,7 +22,7 @@ Le projet a pour but de :
 * Créer et activer l'environnement virtuel 
   * 1- ouvrir l'application "invite de commande"
   * 2- se positionner dans le dossier "oc_python_projet_9"
-  * 3- créer l'environnement virtuel avec: "python -m venv .venv"
+  * 3- créer l'environnement virtuel avec: "python -m venv .env"
   * 4- Activer l'environnement virtuel avec: "source .venv/Scripts/activate"
   * 5- utiliser la commande suivante pour installer les packages: "pip install -r requirements.txt"
 
