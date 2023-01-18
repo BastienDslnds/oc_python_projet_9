@@ -8,9 +8,9 @@
         <a href={% url 'add_review' %} class='button'><button>Créer une critique</button></a>
     </div>
     
-    {% if tickets_and_reviews %}
+    {% if page_obj %}
         <div class="feed-container">
-            {% for instance in tickets_and_reviews %}
+            {% for instance in page_obj %}
                 {% if instance|model_type == 'Ticket' %}
                 <div class="ticket">
                     {% include 'partials/ticket_snippet.html' with ticket=instance %}

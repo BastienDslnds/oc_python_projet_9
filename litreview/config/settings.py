@@ -135,5 +135,5 @@ LOGIN_URL = "home"
 LOGIN_REDIRECT_URL = "feed"
 LOGOUT_REDIRECT_URL = LOGIN_URL
 
-MEIDA_URL = '/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media/')

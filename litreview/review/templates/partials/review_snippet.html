@@ -1,4 +1,5 @@
 {% load review_extras %}
+{% load static %}
 
 
 <!-- data review section -->
@@ -9,7 +10,7 @@
     {% endif %}</p>
 <p class="date">{{ review.time_created|date:'H:i, d M Y' }}</p>
 <p>{{ review.headline }}</p>
-<p class="rating"><img src="{{ review|review_rating_url }}" width="100" height="25" alt="test"></p>
+<p class="rating"><img src="{% static '' %}rating_{{review.rating}}.png" width="100" height="25" alt="test"></p>
 <p class="description">{{ review.body }}</p>
 
 <!-- data ticket section -->

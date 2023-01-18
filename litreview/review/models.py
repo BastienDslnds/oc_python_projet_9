@@ -14,7 +14,13 @@ class Ticket(models.Model):
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
-    image = models.ImageField(null=False, blank=False, verbose_name='Image')
+    image = models.ImageField(
+        null=True,
+        blank=True,
+        upload_to="./",
+        verbose_name='Image',
+        default="./placeholder.png",
+    )
     time_created = models.DateTimeField(auto_now_add=True)
 
     IMAGE_MAX_SIZE = (200, 200)

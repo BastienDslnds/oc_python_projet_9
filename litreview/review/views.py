@@ -2,8 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from .models import Ticket, Review
+from users.models import UserFollows, User
 from itertools import chain
 from . import forms
+from django.db.models import Q
 
 
 @login_required
@@ -17,8 +19,16 @@ def feed(request):
     Returns:
        response (django.http.response.HttpResponse): response to the request
     """
-    tickets = Ticket.objects.all()
-    reviews = Review.objects.all()
+    followed_user = UserFollows.objects.filter(user=request.user)
+    followed_user = [user.followed_user for user in followed_user]
+    tickets = Ticket.objects.filter(
+        Q(user=request.user) | Q(user__in=followed_user)
+    )
+    reviews = Review.objects.filter(
+        Q(user=request.user)
+        | Q(ticket__user=request.user)
+        | Q(user__in=followed_user)
+    )
     tickets_already_with_review = {}
     for ticket in tickets:
         key = f"{ticket.pk}"
@@ -35,7 +45,7 @@ def feed(request):
         reverse=True,
     )
 
-    paginator = Paginator(tickets_and_reviews, 2)
+    paginator = Paginator(tickets_and_reviews, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -43,7 +53,6 @@ def feed(request):
         request,
         "feed.html",
         {
-            'tickets_and_reviews': tickets_and_reviews,
             'tickets_already_with_review': tickets_already_with_review,
             'page_obj': page_obj,
         },
@@ -69,9 +78,12 @@ def posts(request):
         key=lambda instance: instance.time_created,
         reverse=True,
     )
-    response = render(
-        request, "posts.html", {'tickets_and_reviews': tickets_and_reviews}
-    )
+
+    paginator = Paginator(tickets_and_reviews, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    response = render(request, "posts.html", {'page_obj': page_obj})
     return response
 
 
