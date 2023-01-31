@@ -14,12 +14,11 @@ class LoginForm(forms.Form):
 
 
 class SignupForm(UserCreationForm):
-    """Form to sign up with a username, a password and a password confirmation."""
+    """Form to sign up with a username, a password and
+    a password confirmation."""
 
     class Meta(UserCreationForm.Meta):
-        model = (
-            get_user_model()
-        )  # Pour récupérer le modèle User définit dans les settings AUTH_USER_MODEL
+        model = get_user_model()
         fields = ('username',)
         help_texts = {'username': None}
 

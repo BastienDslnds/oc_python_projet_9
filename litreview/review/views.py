@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from .models import Ticket, Review
-from users.models import UserFollows, User
+from users.models import UserFollows
 from itertools import chain
 from . import forms
 from django.db.models import Q

@@ -33,8 +33,8 @@ Le projet a pour but de :
 * Ouvrir un navigateur web
 * Charger l'url suivant: http://127.0.0.1:8000/home/
 
-
 ### Data
+
 * Identifiants d'un user pour tester:
     * Nom d'utilisateur: Bastien 1
     * Mot de passe: Totooooo1
@@ -50,6 +50,10 @@ Le projet a pour but de :
 * La page "posts" permet de:
     * Modifier/supprimer un(e) de ces tickets/critiques
 
+### Vérifier le respect de la PEP8
+
+* Se positionner dans le dossier "litreview"
+* Utiliser la commande "flake8 --exclude=review/migrations,users/migrations,config/settings.py"
 
 ## Auteurs
 

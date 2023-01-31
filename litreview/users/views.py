@@ -63,7 +63,8 @@ def logout_page(request):
         request (django.core.handlers.wsgi.WSGIRequest): request
 
     Returns:
-       response (django.http.response.HttpResponseRedirect): response to the request
+       response (django.http.response.HttpResponseRedirect):
+       response to the request
     """
     logout(request)
     response = redirect(settings.LOGOUT_REDIRECT_URL)

@@ -16,7 +16,7 @@
 <!-- data ticket section -->
 <div class="ticket-review">
     <p>Ticket - 
-        {% if review.user == user %}
+        {% if review.ticket.user == user %}
         Vous
         {% else %}
         {{ review.ticket.user }}
